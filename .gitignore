@@ -1,0 +1,39 @@
+# ROS 2 build artifacts
+src/*/build/
+src/*/install/
+src/*/log/
+build/
+install/
+log/
+
+# Rosbags — too large for git
+bags/
+*.mcap
+*.db3
+*.bag
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+
+# Docker
+.dockerignore
+
+# Model weights — downloaded automatically at runtime
+*.pt
+*.pth
+
+# Environment / secrets
+.env
+*.env
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Ultralytics cache
+runs/

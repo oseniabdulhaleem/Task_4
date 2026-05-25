@@ -1,0 +1,54 @@
+services:
+
+  ros2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fre_task4_ros2:latest
+    container_name: fre_task4
+
+    # ── Keep stdin open for interactive terminals ──────────────────
+    stdin_open: true
+    tty: true
+
+    # ── Network: host mode so ROS 2 DDS discovery works out of box ─
+    network_mode: host
+
+    # ── GUI support (RViz, rqt) ────────────────────────────────────
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - ROS_DOMAIN_ID=0
+
+    volumes:
+      # X11 socket for GUI apps (RViz, rqt_image_view)
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+      # ── YOUR CODE ─────────────────────────────────────────────────
+      # Put your ROS 2 packages here on the host:
+      #   ./src/disc_detection/   → package folder
+      # They appear inside the container at /ros2_ws/src/
+      - ./src:/ros2_ws/src
+
+      # ── YOUR ROSBAGS ──────────────────────────────────────────────
+      # Put your .bag files here on the host:
+      #   ./bags/my_recording/
+      # They appear inside the container at /bags/
+      - ./bags:/bags
+
+      # ── MODEL CACHE ───────────────────────────────────────────────
+      # Persists downloaded FastSAM weights between container restarts
+      - fastsam_weights:/root/.config/Ultralytics
+
+    # ── Resource limits (adjust to your VM size) ──────────────────
+    # No GPU so we cap CPU to avoid saturating the VM
+    deploy:
+      resources:
+        limits:
+          cpus: "4"
+          memory: 6G
+
+# ── Named volumes ──────────────────────────────────────────────────
+volumes:
+  fastsam_weights:
+  
