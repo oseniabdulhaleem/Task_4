@@ -16,6 +16,7 @@ setup(
     entry_points={
         "console_scripts": [
             "disc_detector = disc_detection.disc_detector_node:main",
+            "disc_detector_improved = disc_detection.disc_detector_improved:main",
         ],
     },
 )
